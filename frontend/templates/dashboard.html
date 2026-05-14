@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <div class="card-icon green-icon"><i class="fas fa-solar-panel"></i></div>
+        <span class="status-indicator"></span>
+    </div>
+    <div class="card-value" id="solar-gen">0.0 kW</div>
+    <div class="card-label">Generación Solar</div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-icon yellow-icon"><i class="fas fa-battery-three-quarters"></i></div>
+    </div>
+    <div class="card-value" id="battery-lvl">0%</div>
+    <div class="card-label">Nivel de Batería</div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-icon orange-icon"><i class="fas fa-plug"></i></div>
+    </div>
+    <div class="card-value" id="energy-cons">0.0 kW</div>
+    <div class="card-label">Consumo Actual</div>
+</div>
+
+<div class="card" style="grid-column: span 2; min-height: 300px;">
+    <div class="card-header"><h3>Producción vs Consumo</h3></div>
+    <div style="height: 200px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border-radius: 15px;">
+        <p style="color: var(--text-muted)">Cargando gráfica en tiempo real...</p>
+    </div>
+</div>
+{% endblock %}
