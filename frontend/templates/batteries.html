@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero compact">
+    <div>
+        <p class="eyebrow">Baterias</p>
+        <h2>Almacenamiento y autonomia</h2>
+    </div>
+    <div class="hero-chip">
+        <span class="chip-label">Ultima actualizacion</span>
+        <strong id="updated-at">{{ payload.updated_at }}</strong>
+    </div>
+</section>
+
+<section class="stats-grid compact" id="batteries-totals">
+    <article class="stat-card battery"><p>Energia disponible</p><strong data-field="available_storage_kwh">{{ payload.totals.available_storage_kwh }}</strong><span>kWh utiles</span></article>
+    <article class="stat-card leaf"><p>Salud del banco</p><strong data-field="bank_health_pct">{{ payload.totals.bank_health_pct }}</strong><span>% estimado</span></article>
+    <article class="stat-card sun"><p>Autonomia</p><strong data-field="autonomy_hours">{{ payload.totals.autonomy_hours }}</strong><span>horas proyectadas</span></article>
+</section>
+
+<section class="card-grid" id="battery-cards">
+    {% for battery in payload.batteries %}
+    <article class="panel-card battery-card">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">{{ battery.id }}</p>
+                <h3>{{ battery.name }}</h3>
+            </div>
+            <span class="status-pill">{{ battery.status }}</span>
+        </div>
+        <div class="meter">
+            <div class="meter-fill" style="width: {{ battery.charge }}%"></div>
+        </div>
+        <div class="details-grid">
+            <div><span>Carga</span><strong>{{ battery.charge }}%</strong></div>
+            <div><span>Capacidad</span><strong>{{ battery.capacity_kwh }} kWh</strong></div>
+            <div><span>Voltaje</span><strong>{{ battery.voltage }} V</strong></div>
+            <div><span>Ciclos</span><strong>{{ battery.cycles }}</strong></div>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+{% endblock %}

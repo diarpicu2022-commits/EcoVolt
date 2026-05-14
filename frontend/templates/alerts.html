@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero compact">
+    <div>
+        <p class="eyebrow">Alertas</p>
+        <h2>Eventos y seguimiento del sistema</h2>
+    </div>
+    <div class="hero-chip">
+        <span class="chip-label">Ultima actualizacion</span>
+        <strong id="updated-at">{{ payload.updated_at }}</strong>
+    </div>
+</section>
+
+<section class="stats-grid compact" id="alerts-totals">
+    <article class="stat-card heat"><p>Criticas</p><strong data-field="critical">{{ payload.totals.critical }}</strong><span>requieren accion</span></article>
+    <article class="stat-card sun"><p>Medias</p><strong data-field="medium">{{ payload.totals.medium }}</strong><span>monitoreo cercano</span></article>
+    <article class="stat-card leaf"><p>Informativas</p><strong data-field="informative">{{ payload.totals.informative }}</strong><span>solo registro</span></article>
+</section>
+
+<section class="panel-card">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Linea de tiempo</p>
+            <h3>Registro de alertas recientes</h3>
+        </div>
+    </div>
+    <div class="alerts-feed" id="alerts-list">
+        {% for alert in payload.alerts %}
+        <div class="alert-row severity-{{ alert.severity | lower }}">
+            <div>
+                <strong>{{ alert.category }} · {{ alert.severity }}</strong>
+                <p>{{ alert.message }}</p>
+            </div>
+            <span>{{ alert.time }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

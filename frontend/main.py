@@ -1,75 +1,113 @@
-"""
-EcoVolt Frontend – entry point.
+from pathlib import Path
 
-Run with:
-    flet run main.py
-"""
-import flet as ft
+import uvicorn
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
 from config.settings import settings
-from views.login_view import LoginView
-from views.dashboard_view import DashboardView
+from services.energy_service import energy_service
 
 
-class EcoVoltApp:
-    """
-    Root application controller.
+BASE_DIR = Path(__file__).resolve().parent
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
-    Manages top-level navigation between the login screen
-    and the main dashboard using a simple page-swap pattern.
-    """
-
-    def __init__(self, page: ft.Page):
-        self.page = page
-        self._configure_page()
-        self._show_login()
-
-    # ------------------------------------------------------------------ #
-    #  Page configuration                                                  #
-    # ------------------------------------------------------------------ #
-
-    def _configure_page(self) -> None:
-        self.page.title = settings.APP_TITLE
-        self.page.bgcolor = settings.BACKGROUND_COLOR
-        self.page.padding = 0
-        self.page.spacing = 0
-        self.page.window_width = 1200
-        self.page.window_height = 800
-        self.page.window_min_width = 800
-        self.page.window_min_height = 600
-        self.page.fonts = {
-            "Roboto": "https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Me5Q.ttf"
-        }
-        self.page.theme = ft.Theme(
-            color_scheme_seed=settings.PRIMARY_COLOR,
-            use_material3=True,
-        )
-
-    # ------------------------------------------------------------------ #
-    #  Navigation                                                          #
-    # ------------------------------------------------------------------ #
-
-    def _show_login(self) -> None:
-        """Replace page content with the login view."""
-        self.page.controls.clear()
-        login = LoginView(on_login_success=self._show_dashboard)
-        self.page.add(login)
-        self.page.update()
-
-    def _show_dashboard(self) -> None:
-        """Replace page content with the dashboard view."""
-        self.page.controls.clear()
-        dashboard = DashboardView(on_logout=self._show_login)
-        self.page.add(dashboard)
-        self.page.update()
+app = FastAPI(
+    title=settings.APP_TITLE,
+    description="EcoVolt solar monitoring frontend",
+    version="1.0.0",
+)
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 
-# ------------------------------------------------------------------ #
-#  Application entry point                                             #
-# ------------------------------------------------------------------ #
+def build_template_context(request: Request, page_name: str, payload: dict) -> dict:
+    # Centraliza el contexto para mantener consistencia entre vistas.
+    return {
+        "request": request,
+        "app_title": settings.APP_TITLE,
+        "navigation_items": settings.navigation_items,
+        "current_page": page_name,
+        "payload": payload,
+    }
 
-def main(page: ft.Page) -> None:
-    EcoVoltApp(page)
+
+@app.get("/", response_class=HTMLResponse)
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard_page(request: Request) -> HTMLResponse:
+    payload = await energy_service.get_dashboard_payload()
+    return templates.TemplateResponse(
+        request=request,
+        name="dashboard.html",
+        context=build_template_context(request, "dashboard", payload),
+    )
+
+
+@app.get("/paneles", response_class=HTMLResponse)
+async def panels_page(request: Request) -> HTMLResponse:
+    payload = await energy_service.get_panels_payload()
+    return templates.TemplateResponse(
+        request=request,
+        name="panels.html",
+        context=build_template_context(request, "paneles", payload),
+    )
+
+
+@app.get("/baterias", response_class=HTMLResponse)
+async def batteries_page(request: Request) -> HTMLResponse:
+    payload = await energy_service.get_batteries_payload()
+    return templates.TemplateResponse(
+        request=request,
+        name="batteries.html",
+        context=build_template_context(request, "baterias", payload),
+    )
+
+
+@app.get("/cargas", response_class=HTMLResponse)
+async def loads_page(request: Request) -> HTMLResponse:
+    payload = await energy_service.get_loads_payload()
+    return templates.TemplateResponse(
+        request=request,
+        name="loads.html",
+        context=build_template_context(request, "cargas", payload),
+    )
+
+
+@app.get("/alertas", response_class=HTMLResponse)
+async def alerts_page(request: Request) -> HTMLResponse:
+    payload = await energy_service.get_alerts_payload()
+    return templates.TemplateResponse(
+        request=request,
+        name="alerts.html",
+        context=build_template_context(request, "alertas", payload),
+    )
+
+
+@app.get("/api/dashboard", response_class=JSONResponse)
+async def dashboard_api() -> JSONResponse:
+    return JSONResponse(await energy_service.get_dashboard_payload())
+
+
+@app.get("/api/panels", response_class=JSONResponse)
+async def panels_api() -> JSONResponse:
+    return JSONResponse(await energy_service.get_panels_payload())
+
+
+@app.get("/api/batteries", response_class=JSONResponse)
+async def batteries_api() -> JSONResponse:
+    return JSONResponse(await energy_service.get_batteries_payload())
+
+
+@app.get("/api/loads", response_class=JSONResponse)
+async def loads_api() -> JSONResponse:
+    return JSONResponse(await energy_service.get_loads_payload())
+
+
+@app.get("/api/alerts", response_class=JSONResponse)
+async def alerts_api() -> JSONResponse:
+    return JSONResponse(await energy_service.get_alerts_payload())
 
 
 if __name__ == "__main__":
-    ft.app(target=main)
+    # Permite ejecutar la app directamente durante desarrollo local.
+    uvicorn.run("main:app", host="127.0.0.1", port=8501, reload=True)

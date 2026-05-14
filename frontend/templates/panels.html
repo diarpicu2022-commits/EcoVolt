@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero compact">
+    <div>
+        <p class="eyebrow">Paneles solares</p>
+        <h2>Rendimiento por unidad instalada</h2>
+    </div>
+    <div class="hero-chip">
+        <span class="chip-label">Ultima actualizacion</span>
+        <strong id="updated-at">{{ payload.updated_at }}</strong>
+    </div>
+</section>
+
+<section class="stats-grid compact" id="panels-totals">
+    <article class="stat-card sun"><p>Capacidad instalada</p><strong data-field="installed_capacity_kw">{{ payload.totals.installed_capacity_kw }}</strong><span>kW pico</span></article>
+    <article class="stat-card leaf"><p>Eficiencia media</p><strong data-field="avg_efficiency">{{ payload.totals.avg_efficiency }}</strong><span>% del banco</span></article>
+    <article class="stat-card battery"><p>Paneles activos</p><strong data-field="active_panels">{{ payload.totals.active_panels }}</strong><span>en operacion</span></article>
+</section>
+
+<section class="panel-card">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Inventario tecnico</p>
+            <h3>Estado actual de los paneles</h3>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Eficiencia</th>
+                    <th>Voltaje</th>
+                    <th>Corriente</th>
+                    <th>Potencia</th>
+                    <th>Temperatura</th>
+                </tr>
+            </thead>
+            <tbody id="panels-table">
+                {% for panel in payload.panels %}
+                <tr>
+                    <td>{{ panel.id }}</td>
+                    <td>{{ panel.name }}</td>
+                    <td><span class="status-pill">{{ panel.status }}</span></td>
+                    <td>{{ panel.efficiency }}%</td>
+                    <td>{{ panel.voltage }} V</td>
+                    <td>{{ panel.current }} A</td>
+                    <td>{{ panel.power }} kW</td>
+                    <td>{{ panel.temperature }} C</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

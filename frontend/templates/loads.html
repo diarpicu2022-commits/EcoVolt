@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero compact">
+    <div>
+        <p class="eyebrow">Cargas</p>
+        <h2>Consumo priorizado del sistema</h2>
+    </div>
+    <div class="hero-chip">
+        <span class="chip-label">Ultima actualizacion</span>
+        <strong id="updated-at">{{ payload.updated_at }}</strong>
+    </div>
+</section>
+
+<section class="stats-grid compact" id="loads-totals">
+    <article class="stat-card heat"><p>Consumo total</p><strong data-field="consumption_kw">{{ payload.totals.consumption_kw }}</strong><span>kW en uso</span></article>
+    <article class="stat-card battery"><p>Cargas criticas</p><strong data-field="critical_loads">{{ payload.totals.critical_loads }}</strong><span>bajo resguardo</span></article>
+    <article class="stat-card leaf"><p>Cargas programadas</p><strong data-field="scheduled_loads">{{ payload.totals.scheduled_loads }}</strong><span>pendientes</span></article>
+</section>
+
+<section class="panel-card">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Distribucion operativa</p>
+            <h3>Dispositivos y prioridades</h3>
+        </div>
+    </div>
+    <div class="stack-list" id="loads-list">
+        {% for load in payload.loads %}
+        <div class="load-card">
+            <div>
+                <strong>{{ load.name }}</strong>
+                <span>{{ load.id }} · {{ load.priority }} · {{ load.source }}</span>
+            </div>
+            <div class="load-meta">
+                <b>{{ load.consumption_w }} W</b>
+                <span class="status-pill">{{ load.status }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

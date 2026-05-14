@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ app_title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/app.css') }}">
+</head>
+<body data-page="{{ current_page }}">
+    <div class="page-shell">
+        <aside class="sidebar">
+            <div class="brand-block">
+                <div class="brand-mark">EV</div>
+                <div>
+                    <p class="eyebrow">Sistema inteligente</p>
+                    <h1>EcoVolt</h1>
+                </div>
+            </div>
+
+            <nav class="nav-list">
+                {% for item in navigation_items %}
+                <a class="nav-item {% if current_page == item.key %}is-active{% endif %}" href="{{ item.href }}">
+                    <span>{{ item.label }}</span>
+                </a>
+                {% endfor %}
+            </nav>
+
+            <section class="sidebar-card">
+                <p class="eyebrow">Operacion</p>
+                <h2>Monitoreo continuo</h2>
+                <p>El sistema actualiza metricas, cargas y alertas automaticamente cada 5 segundos.</p>
+            </section>
+        </aside>
+
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <script>
+        window.__ECOVOLT_INITIAL_DATA__ = {{ payload | tojson }};
+    </script>
+    <script src="{{ url_for('static', path='/js/app.js') }}"></script>
+</body>
+</html>
