@@ -34,6 +34,7 @@ class DashboardView(ft.UserControl):
         self._battery_gauge: BatteryGauge | None = None
 
         self._devices_ref = ft.Ref[ft.Column]()
+        self._alerts_ref = ft.Ref[ft.Column]()
         self._loading_ref = ft.Ref[ft.ProgressRing]()
         self._last_update_ref = ft.Ref[ft.Text]()
 
@@ -56,12 +57,14 @@ class DashboardView(ft.UserControl):
     # ------------------------------------------------------------------ #
 
     async def _load_initial_data(self) -> None:
-        stats, devices = await asyncio.gather(
+        stats, devices, alerts = await asyncio.gather(
             energy_service.get_statistics(),
             energy_service.get_devices(),
+            energy_service.get_alerts(),
         )
         self._update_stats(stats)
         self._render_devices(devices)
+        self._render_alerts(alerts)
         self._loading_ref.current.visible = False
         self.update()
 
@@ -97,6 +100,55 @@ class DashboardView(ft.UserControl):
                     on_toggle=self._handle_device_toggle,
                 )
                 self._devices_ref.current.controls.append(card)
+        self.update()
+
+    def _render_alerts(self, alerts: list[dict]) -> None:
+        if not self._alerts_ref.current:
+            return
+        self._alerts_ref.current.controls.clear()
+        if not alerts:
+            self._alerts_ref.current.controls.append(
+                ft.Text(
+                    value="Sin alertas recientes",
+                    color=settings.TEXT_SECONDARY,
+                    size=13,
+                )
+            )
+        else:
+            _color_map = {
+                "CRITICAL": settings.ERROR_COLOR,
+                "WARNING": "#F57C00",
+                "INFO": settings.PRIMARY_COLOR,
+            }
+            for alert in alerts:
+                severity = alert.get("severity", "INFO").upper()
+                color = _color_map.get(severity, settings.PRIMARY_COLOR)
+                self._alerts_ref.current.controls.append(
+                    ft.Row(
+                        spacing=10,
+                        controls=[
+                            ft.Icon(
+                                name=ft.icons.WARNING_AMBER_ROUNDED
+                                if severity == "CRITICAL"
+                                else ft.icons.NOTIFICATIONS_OUTLINED,
+                                color=color,
+                                size=18,
+                            ),
+                            ft.Text(
+                                value=alert.get("message", ""),
+                                size=13,
+                                color=settings.TEXT_PRIMARY,
+                                expand=True,
+                            ),
+                            ft.Text(
+                                value=severity,
+                                size=11,
+                                color=color,
+                                weight=ft.FontWeight.W_600,
+                            ),
+                        ],
+                    )
+                )
         self.update()
 
     # ------------------------------------------------------------------ #
@@ -301,6 +353,51 @@ class DashboardView(ft.UserControl):
                                         ),
                                     ),
                                 ],
+                            ),
+                            # Alerts panel
+                            ft.Container(
+                                bgcolor=settings.CARD_COLOR,
+                                border_radius=16,
+                                padding=ft.padding.all(20),
+                                shadow=ft.BoxShadow(
+                                    spread_radius=1,
+                                    blur_radius=8,
+                                    color=ft.colors.with_opacity(0.08, ft.colors.BLACK),
+                                    offset=ft.Offset(0, 2),
+                                ),
+                                content=ft.Column(
+                                    spacing=12,
+                                    controls=[
+                                        ft.Row(
+                                            controls=[
+                                                ft.Icon(
+                                                    name=ft.icons.NOTIFICATIONS_ACTIVE_OUTLINED,
+                                                    color=settings.ERROR_COLOR,
+                                                    size=20,
+                                                ),
+                                                ft.Text(
+                                                    value="Alertas del Sistema",
+                                                    size=18,
+                                                    weight=ft.FontWeight.W_600,
+                                                    color=settings.TEXT_PRIMARY,
+                                                ),
+                                            ],
+                                            spacing=8,
+                                        ),
+                                        ft.Divider(height=1),
+                                        ft.Column(
+                                            ref=self._alerts_ref,
+                                            spacing=8,
+                                            controls=[
+                                                ft.Text(
+                                                    value="Cargando alertas...",
+                                                    color=settings.TEXT_SECONDARY,
+                                                    size=13,
+                                                )
+                                            ],
+                                        ),
+                                    ],
+                                ),
                             ),
                             # Info banner
                             ft.Container(
