@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header"><h3>Banco de Baterías</h3></div>
+    <div style="display: flex; align-items: center; justify-content: center; padding: 2rem;">
+        <div style="width: 200px; height: 100px; border: 4px solid var(--text-muted); border-radius: 10px; position: relative; padding: 5px;">
+            <div id="battery-fill" style="width: 85%; height: 100%; background: linear-gradient(to right, var(--primary-green), #81C784); border-radius: 4px; transition: 1s;"></div>
+            <div style="position: absolute; right: -15px; top: 25px; width: 12px; height: 40px; background: var(--text-muted); border-radius: 0 5px 5px 0;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
