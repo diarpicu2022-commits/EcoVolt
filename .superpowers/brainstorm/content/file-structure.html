@@ -1,0 +1,170 @@
+<h2>Estructura de archivos EcoVolt — 1 clase por archivo</h2>
+<p class="subtitle">Arquitectura Hexagonal. Cada clase vive en su propio archivo. Backend Python + Frontend HTML/CSS/JS servido por FastAPI.</p>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
+
+  <!-- BACKEND -->
+  <div>
+    <h3 style="color:#1565C0; border-bottom: 2px solid #1565C0; padding-bottom:4px;">📁 backend/</h3>
+
+    <div style="font-family: monospace; font-size: 0.78rem; line-height: 1.9;">
+      <div style="color:#666;">├── main.py <span style="color:#999; font-family:sans-serif; font-size:0.7rem;">— arranque FastAPI</span></div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 config/</div>
+      <div style="margin-left:1.2rem;">└── solar_system_config.py <span style="color:#999; font-family:sans-serif; font-size:0.7rem;">Singleton</span></div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 domain/entities/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── energy_component.py <span style="color:#e65100; font-family:sans-serif; font-size:0.68rem;">abstract base L1</span><br>
+        ├── solar_panel.py <span style="color:#e65100; font-family:sans-serif; font-size:0.68rem;">abstract L2</span><br>
+        ├── monocrystalline_panel.py <span style="color:#2e7d32; font-family:sans-serif; font-size:0.68rem;">concrete L3</span><br>
+        ├── polycrystalline_panel.py <span style="color:#2e7d32; font-family:sans-serif; font-size:0.68rem;">concrete L3</span><br>
+        ├── thin_film_panel.py <span style="color:#2e7d32; font-family:sans-serif; font-size:0.68rem;">concrete L3</span><br>
+        ├── battery.py <span style="color:#e65100; font-family:sans-serif; font-size:0.68rem;">abstract L2</span><br>
+        ├── lithium_battery.py <span style="color:#2e7d32; font-family:sans-serif; font-size:0.68rem;">concrete L3</span><br>
+        ├── lead_acid_battery.py <span style="color:#2e7d32; font-family:sans-serif; font-size:0.68rem;">concrete L3</span><br>
+        ├── energy_load.py<br>
+        └── energy_alert.py
+      </div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 domain/interfaces/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── sensor_port.py <span style="color:#6a1b9a; font-family:sans-serif; font-size:0.68rem;">interface</span><br>
+        ├── panel_repository_port.py <span style="color:#6a1b9a; font-family:sans-serif; font-size:0.68rem;">interface</span><br>
+        └── alert_repository_port.py <span style="color:#6a1b9a; font-family:sans-serif; font-size:0.68rem;">interface</span>
+      </div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 domain/states/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── battery_state.py <span style="color:#e65100; font-family:sans-serif; font-size:0.68rem;">abstract</span><br>
+        ├── charging_state.py<br>
+        ├── discharging_state.py<br>
+        ├── full_charge_state.py<br>
+        └── low_battery_state.py
+      </div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 data_structures/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── solar_panel_array.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Array + QuickSort/MergeSort</span><br>
+        ├── alert_queue.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">FIFO Queue</span><br>
+        ├── sensor_reading_singly_list.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Linked List</span><br>
+        ├── reading_history_doubly_list.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Doubly LL</span><br>
+        ├── panel_monitor_circular_list.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Circular DLL</span><br>
+        └── command_stack.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">LIFO Stack</span>
+      </div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 patterns/creational/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── system_logger.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Singleton</span><br>
+        ├── solar_panel_abstract_factory.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Abstract Factory</span><br>
+        ├── monocrystalline_factory.py<br>
+        ├── polycrystalline_factory.py<br>
+        ├── thin_film_factory.py<br>
+        ├── energy_report_builder.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Builder</span><br>
+        └── panel_config_prototype.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Prototype</span>
+      </div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 patterns/structural/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── sensor_adapter.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Adapter (abstract)</span><br>
+        ├── simulator_sensor_adapter.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Adapter (simul)</span><br>
+        ├── serial_sensor_adapter.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Adapter (hw real)</span><br>
+        ├── energy_management_facade.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Facade</span><br>
+        ├── sensor_data_proxy.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Proxy</span><br>
+        ├── calibration_decorator.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Decorator</span><br>
+        └── validation_decorator.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Decorator</span>
+      </div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 services/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── solar_panel_service.py<br>
+        ├── battery_service.py<br>
+        ├── energy_load_service.py<br>
+        └── alert_service.py
+      </div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 repositories/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── sqlite_panel_repository.py<br>
+        ├── sqlite_battery_repository.py<br>
+        └── sqlite_alert_repository.py
+      </div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 api/routers/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── panel_router.py<br>
+        ├── battery_router.py<br>
+        ├── load_router.py<br>
+        └── alert_router.py
+      </div>
+
+      <div style="color:#1565C0; margin-top:6px;">├── 📁 db/</div>
+      <div style="margin-left:1.2rem;">└── database_connection.py <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">Singleton SQLite</span></div>
+
+      <div style="color:#1565C0; margin-top:6px;">└── 📁 tests/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── test_solar_panel.py<br>
+        ├── test_battery_states.py<br>
+        ├── test_data_structures.py<br>
+        └── test_patterns.py
+      </div>
+    </div>
+  </div>
+
+  <!-- FRONTEND -->
+  <div>
+    <h3 style="color:#2e7d32; border-bottom: 2px solid #2e7d32; padding-bottom:4px;">📁 frontend/</h3>
+    <div style="font-family: monospace; font-size: 0.78rem; line-height: 1.9;">
+      <div style="color:#2e7d32;">├── 📁 templates/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── base.html <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">layout base con navbar</span><br>
+        ├── dashboard.html <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">panel principal</span><br>
+        ├── panels.html <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">gestión paneles</span><br>
+        ├── batteries.html <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">estado baterías</span><br>
+        ├── loads.html <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">consumo energía</span><br>
+        └── alerts.html <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">alertas activas</span>
+      </div>
+
+      <div style="color:#2e7d32; margin-top:6px;">├── 📁 static/css/</div>
+      <div style="margin-left:1.2rem;">└── ecovolt.css <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">tema solar verde/amarillo</span></div>
+
+      <div style="color:#2e7d32; margin-top:6px;">└── 📁 static/js/</div>
+      <div style="margin-left:1.2rem; color:#333;">
+        ├── dashboard.js <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">gráficas en tiempo real</span><br>
+        └── alerts.js <span style="color:#999; font-family:sans-serif; font-size:0.68rem;">polling de alertas</span>
+      </div>
+    </div>
+
+    <!-- HERENCIA 3 NIVELES -->
+    <h3 style="color:#e65100; border-bottom: 2px solid #e65100; padding-bottom:4px; margin-top:1.5rem;">🔺 Jerarquía de Herencia (3 niveles)</h3>
+    <div style="font-family: monospace; font-size: 0.78rem; line-height: 2;">
+      <div style="color:#e65100;">EnergyComponent (abstract L1)</div>
+      <div style="margin-left:1rem; color:#e65100;">├── SolarPanel (abstract L2)</div>
+      <div style="margin-left:2rem; color:#2e7d32;">├── MonocrystallinePanel (L3)</div>
+      <div style="margin-left:2rem; color:#2e7d32;">├── PolycrystallinePanel (L3)</div>
+      <div style="margin-left:2rem; color:#2e7d32;">└── ThinFilmPanel (L3)</div>
+      <div style="margin-left:1rem; color:#e65100;">└── Battery (abstract L2)</div>
+      <div style="margin-left:2rem; color:#2e7d32;">├── LithiumBattery (L3)</div>
+      <div style="margin-left:2rem; color:#2e7d32;">└── LeadAcidBattery (L3)</div>
+    </div>
+
+    <!-- PATRONES -->
+    <h3 style="color:#6a1b9a; border-bottom: 2px solid #6a1b9a; padding-bottom:4px; margin-top:1.5rem;">🎨 Patrones → Uso Real</h3>
+    <div style="font-size:0.75rem; line-height:1.8;">
+      <div><strong>Singleton</strong> → SystemLogger, DatabaseConnection, SolarSystemConfig</div>
+      <div><strong>Abstract Factory</strong> → SolarPanelFactory (Mono/Poly/ThinFilm)</div>
+      <div><strong>Builder</strong> → EnergyReportBuilder</div>
+      <div><strong>Prototype</strong> → PanelConfigPrototype.clone()</div>
+      <div><strong>Adapter</strong> → SimulatorSensorAdapter / SerialSensorAdapter</div>
+      <div><strong>Facade</strong> → EnergyManagementFacade</div>
+      <div><strong>Proxy</strong> → SensorDataProxy (rate limiting + logging)</div>
+      <div><strong>Decorator</strong> → CalibrationDecorator, ValidationDecorator</div>
+      <div><strong>State</strong> → BatteryState: Charging/Discharging/Full/Low</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:1.5rem; padding:1rem; background:rgba(46,125,50,0.1); border-left:4px solid #2e7d32; border-radius:4px;">
+  <strong>Total archivos Python:</strong> ~45 archivos independientes (1 clase = 1 archivo) | <strong>Total archivos frontend:</strong> ~8 archivos HTML/CSS/JS
+</div>

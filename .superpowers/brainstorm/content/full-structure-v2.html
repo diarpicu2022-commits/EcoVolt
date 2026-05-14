@@ -1,0 +1,156 @@
+<h2>EcoVolt — Estructura COMPLETA: Todos los Patrones + Todas las Estructuras</h2>
+<p class="subtitle">11 patrones de diseño + 6 categorías de estructuras de datos + jerarquía 3 niveles. Cada clase = 1 archivo.</p>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+
+<!-- COLUMNA IZQUIERDA: ESTRUCTURAS DE DATOS -->
+<div>
+  <h3 style="background:#1565C0;color:white;padding:8px 12px;border-radius:4px;margin:0 0 8px;">📦 DATA STRUCTURES — Todos los tipos</h3>
+  <div style="font-size:0.74rem; line-height:1.8; font-family:monospace; background:#f8f9fa; padding:10px; border-radius:4px;">
+
+    <div style="color:#1565C0; font-weight:bold;">📁 data_structures/arrays/</div>
+    <div style="margin-left:1rem;">
+      ├── <b>solar_panel_static_array.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Array estático 1D: slots fijos de paneles (max 20)</span><br>
+      ├── <b>solar_panel_dynamic_array.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Array dinámico: lista activa de paneles + QuickSort/MergeSort/HeapSort</span><br>
+      ├── <b>energy_production_matrix.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Array 2D: [panel][hora] = kWh generado</span><br>
+      ├── <b>monthly_energy_volume.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Array 3D: [panel][día][mes] = producción histórica</span><br>
+      ├── <b>sensor_polling_circular_array.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Array circular: buffer de lecturas con índice módulo</span><br>
+      ├── <b>sensor_reading_struct_array.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Array de estructuras: objetos SensorReading</span><br>
+      ├── <b>panel_reference_array.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Array de referencias: punteros a paneles activos</span><br>
+      └── <b>alert_message_string_array.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Array de strings: mensajes de alertas del sistema</span>
+    </div>
+
+    <div style="color:#1565C0; font-weight:bold; margin-top:8px;">📁 data_structures/queues/</div>
+    <div style="margin-left:1rem;">
+      └── <b>alert_processing_queue.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Cola FIFO: alertas pendientes de procesar</span><br>
+      └── <b>sensor_event_queue.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Cola FIFO: eventos de lectura de sensores</span>
+    </div>
+
+    <div style="color:#1565C0; font-weight:bold; margin-top:8px;">📁 data_structures/linked_lists/</div>
+    <div style="margin-left:1rem;">
+      ├── <b>sensor_reading_singly_list.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Lista simple: cadena de lecturas (solo forward)</span><br>
+      ├── <b>reading_history_doubly_list.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Lista doble: historial navegable (prev/next)</span><br>
+      └── <b>panel_monitor_circular_list.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Lista circular doble: round-robin de monitoreo</span>
+    </div>
+
+    <div style="color:#1565C0; font-weight:bold; margin-top:8px;">📁 data_structures/stacks/</div>
+    <div style="margin-left:1rem;">
+      └── <b>configuration_command_stack.py</b><br>
+      <span style="color:#666; font-family:sans-serif;">   → Pila LIFO: undo/redo de configuraciones del sistema</span>
+    </div>
+  </div>
+</div>
+
+<!-- COLUMNA DERECHA: PATRONES -->
+<div>
+  <h3 style="background:#4a148c;color:white;padding:8px 12px;border-radius:4px;margin:0 0 8px;">🎨 DESIGN PATTERNS — Los 11 patrones</h3>
+  <div style="font-size:0.74rem; line-height:1.8; font-family:monospace; background:#f8f9fa; padding:10px; border-radius:4px;">
+
+    <div style="color:#4a148c; font-weight:bold;">📁 patterns/creational/</div>
+    <div style="margin-left:1rem;">
+      ├── <b>system_logger.py</b> <span style="color:#e65100;">[SINGLETON]</span><br>
+      <span style="color:#666; font-family:sans-serif;">   → Una única instancia de logger del sistema</span><br>
+      ├── <b>solar_system_config.py</b> <span style="color:#e65100;">[SINGLETON]</span><br>
+      <span style="color:#666; font-family:sans-serif;">   → Configuración global única</span><br>
+      ├── <b>database_connection.py</b> <span style="color:#e65100;">[SINGLETON]</span><br>
+      <span style="color:#666; font-family:sans-serif;">   → Conexión SQLite única</span><br>
+
+      ├── <b>sensor_reading_creator.py</b> <span style="color:#e65100;">[FACTORY METHOD]</span><br>
+      <span style="color:#666; font-family:sans-serif;">   → Creator abstracto: factoryMethod() crea SensorReadings</span><br>
+      ├── <b>voltage_reading_creator.py</b> <span style="color:#e65100;">[FACTORY METHOD]</span><br>
+      ├── <b>temperature_reading_creator.py</b> <span style="color:#e65100;">[FACTORY METHOD]</span><br>
+      ├── <b>current_reading_creator.py</b> <span style="color:#e65100;">[FACTORY METHOD]</span><br>
+
+      ├── <b>solar_panel_abstract_factory.py</b> <span style="color:#e65100;">[ABSTRACT FACTORY]</span><br>
+      <span style="color:#666; font-family:sans-serif;">   → Familia de productos: Panel + Sensor + Controller</span><br>
+      ├── <b>monocrystalline_factory.py</b> <span style="color:#e65100;">[ABSTRACT FACTORY]</span><br>
+      ├── <b>polycrystalline_factory.py</b> <span style="color:#e65100;">[ABSTRACT FACTORY]</span><br>
+      ├── <b>thin_film_factory.py</b> <span style="color:#e65100;">[ABSTRACT FACTORY]</span><br>
+
+      ├── <b>energy_report_builder.py</b> <span style="color:#e65100;">[BUILDER]</span><br>
+      <span style="color:#666; font-family:sans-serif;">   → Construye reportes con secciones opcionales paso a paso</span><br>
+      ├── <b>energy_report_director.py</b> <span style="color:#e65100;">[BUILDER]</span><br>
+
+      └── <b>panel_config_prototype.py</b> <span style="color:#e65100;">[PROTOTYPE]</span><br>
+      <span style="color:#666; font-family:sans-serif;">   → clone() de configuraciones de panel</span>
+    </div>
+
+    <div style="color:#4a148c; font-weight:bold; margin-top:8px;">📁 patterns/structural/</div>
+    <div style="margin-left:1rem;">
+      ├── <b>sensor_port.py</b> <span style="color:#1565C0;">[ADAPTER — Target]</span><br>
+      ├── <b>serial_hardware_adaptee.py</b> <span style="color:#1565C0;">[ADAPTER — Adaptee]</span><br>
+      ├── <b>serial_sensor_adapter.py</b> <span style="color:#1565C0;">[ADAPTER — real HW]</span><br>
+      ├── <b>simulator_sensor_adapter.py</b> <span style="color:#1565C0;">[ADAPTER — simulado]</span><br>
+
+      ├── <b>energy_display_abstraction.py</b> <span style="color:#1565C0;">[BRIDGE — Abstraction]</span><br>
+      ├── <b>panel_chart_display.py</b> <span style="color:#1565C0;">[BRIDGE — Refined]</span><br>
+      ├── <b>battery_chart_display.py</b> <span style="color:#1565C0;">[BRIDGE — Refined]</span><br>
+      ├── <b>chart_renderer.py</b> <span style="color:#1565C0;">[BRIDGE — Implementation]</span><br>
+      ├── <b>json_chart_renderer.py</b> <span style="color:#1565C0;">[BRIDGE — ConcreteImpl]</span><br>
+      ├── <b>html_chart_renderer.py</b> <span style="color:#1565C0;">[BRIDGE — ConcreteImpl]</span><br>
+
+      ├── <b>sensor_data_decorator.py</b> <span style="color:#1565C0;">[DECORATOR — abstract]</span><br>
+      ├── <b>calibration_decorator.py</b> <span style="color:#1565C0;">[DECORATOR]</span><br>
+      ├── <b>validation_decorator.py</b> <span style="color:#1565C0;">[DECORATOR]</span><br>
+      ├── <b>noise_filter_decorator.py</b> <span style="color:#1565C0;">[DECORATOR]</span><br>
+
+      ├── <b>energy_management_facade.py</b> <span style="color:#1565C0;">[FACADE]</span><br>
+      <span style="color:#666; font-family:sans-serif;">   → API simple sobre todos los subsistemas</span><br>
+
+      └── <b>sensor_data_proxy.py</b> <span style="color:#1565C0;">[PROXY]</span><br>
+      <span style="color:#666; font-family:sans-serif;">   → Rate limiting + logging + lazy loading</span>
+    </div>
+
+    <div style="color:#4a148c; font-weight:bold; margin-top:8px;">📁 patterns/behavioral/states/</div>
+    <div style="margin-left:1rem;">
+      ├── <b>battery_state.py</b> <span style="color:#2e7d32;">[STATE — abstract]</span><br>
+      ├── <b>charging_state.py</b> <span style="color:#2e7d32;">[STATE]</span><br>
+      ├── <b>discharging_state.py</b> <span style="color:#2e7d32;">[STATE]</span><br>
+      ├── <b>full_charge_state.py</b> <span style="color:#2e7d32;">[STATE]</span><br>
+      ├── <b>low_battery_state.py</b> <span style="color:#2e7d32;">[STATE]</span><br>
+      ├── <b>panel_state.py</b> <span style="color:#2e7d32;">[STATE — abstract]</span><br>
+      ├── <b>active_panel_state.py</b> <span style="color:#2e7d32;">[STATE]</span><br>
+      ├── <b>standby_panel_state.py</b> <span style="color:#2e7d32;">[STATE]</span><br>
+      ├── <b>maintenance_panel_state.py</b> <span style="color:#2e7d32;">[STATE]</span><br>
+      └── <b>faulty_panel_state.py</b> <span style="color:#2e7d32;">[STATE]</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- RESUMEN -->
+<div style="margin-top:1rem; display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem;">
+  <div style="background:#e3f2fd; padding:10px; border-radius:6px; text-align:center;">
+    <div style="font-size:1.8rem; font-weight:bold; color:#1565C0;">11</div>
+    <div style="font-size:0.8rem;">Patrones de diseño<br><small>Singleton×3, FactoryMethod, AbstractFactory×3, Builder, Prototype, Adapter×2, Bridge, Decorator×3, Facade, Proxy, State×2</small></div>
+  </div>
+  <div style="background:#f3e5f5; padding:10px; border-radius:6px; text-align:center;">
+    <div style="font-size:1.8rem; font-weight:bold; color:#4a148c;">14</div>
+    <div style="font-size:0.8rem;">Estructuras de datos<br><small>1D, 2D, 3D array, dinámico, estático, circular, structs, refs, strings / Queue / SLL / DLL / Circular DLL / Stack</small></div>
+  </div>
+  <div style="background:#e8f5e9; padding:10px; border-radius:6px; text-align:center;">
+    <div style="font-size:1.8rem; font-weight:bold; color:#2e7d32;">~70</div>
+    <div style="font-size:0.8rem;">Archivos Python totales<br><small>1 clase por archivo, todos nombrados por dominio solar</small></div>
+  </div>
+</div>
+
+<div style="margin-top:1rem; padding:1rem; background:rgba(46,125,50,0.1); border-left:4px solid #2e7d32; border-radius:4px; font-size:0.85rem;">
+  ✅ Todos los patrones canónicos completos (Creacional + Estructural + Estado)<br>
+  ✅ Todos los tipos de arrays (1D estático, 1D dinámico, 2D, 3D, circular, structs, refs, strings)<br>
+  ✅ Queue FIFO + Stack LIFO + SLL + DLL + Circular DLL<br>
+  ✅ Jerarquía 3 niveles: EnergyComponent → SolarPanel/Battery → Mono/Poly/ThinFilm/Lithium/LeadAcid<br>
+  ✅ Interfaz ISensorPort + clases abstractas BatteryState, PanelState, EnergyComponent
+</div>

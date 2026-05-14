@@ -1,0 +1,46 @@
+<h2>¿Qué framework de frontend Python usamos para EcoVolt?</h2>
+<p class="subtitle">El sistema es un dashboard de energía solar — necesitamos mostrar datos en tiempo real, gráficas y alertas. Todo en Python.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="streamlit" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #FF6B35 0%, #FF4500 100%); height: 120px; display:flex; align-items:center; justify-content:center; font-size: 2.5rem;">⚡</div>
+    <div class="card-body">
+      <h3>A — Streamlit</h3>
+      <p><strong>Dashboard web moderno con Python puro.</strong> Gráficas interactivas, widgets en tiempo real, desplegable con un solo comando. Ideal para dashboards de monitoreo de sensores.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>100% Python, sin HTML</li><li>Gráficas con Plotly/Altair</li><li>Hot-reload automático</li><li>Muy rápido de construir</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Menos control sobre UI</li><li>No multipage sin workaround</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="fastapi-jinja" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #009688 0%, #00695C 100%); height: 120px; display:flex; align-items:center; justify-content:center; font-size: 2.5rem;">🔧</div>
+    <div class="card-body">
+      <h3>B — FastAPI + Templates HTML</h3>
+      <p><strong>Backend REST API + frontend HTML/CSS/JS.</strong> Backend potente en Python, frontend con Jinja2. Separación real de capas. REST API consumible desde cualquier cliente.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Arquitectura profesional</li><li>API REST documentada</li><li>Control total del UI</li><li>Escalable</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Más código HTML/CSS/JS</li><li>Más complejo de arrancar</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="dash" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #3F51B5 0%, #1A237E 100%); height: 120px; display:flex; align-items:center; justify-content:center; font-size: 2.5rem;">📊</div>
+    <div class="card-body">
+      <h3>C — Dash (Plotly)</h3>
+      <p><strong>Framework analítico con gráficas interactivas nativas.</strong> Pensado para dashboards científicos/industriales. Callbacks reactivos, excelente para datos de sensores en tiempo real.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Gráficas industriales top</li><li>Callbacks reactivos</li><li>Diseñado para IoT/datos</li><li>100% Python</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Curva de aprendizaje media</li><li>Más pesado que Streamlit</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,165,0,0.1); border-left: 4px solid orange; border-radius: 4px;">
+  <p><strong>Mi recomendación:</strong> <strong>B — FastAPI + Templates</strong> porque el proyecto requiere separación real de backend/frontend según las instrucciones, y un REST API permite integrar los sensores de electrónica (Arduino, Raspberry Pi) fácilmente.</p>
+</div>

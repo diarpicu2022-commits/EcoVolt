@@ -1,0 +1,66 @@
+<h2>Arquitectura del sistema EcoVolt — elige un enfoque</h2>
+<p class="subtitle">Todos cumplen los patrones requeridos. La diferencia está en cómo se organizan las capas.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="layered" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #607D8B 0%, #37474F 100%); height: 140px; padding: 1rem; display:flex; flex-direction:column; justify-content:center; font-family:monospace; font-size:0.75rem; color:white;">
+      <div style="border:1px solid #90A4AE; padding:4px 8px; margin:2px; text-align:center;">🌐 FastAPI — Endpoints REST + HTML Templates</div>
+      <div style="border:1px solid #90A4AE; padding:4px 8px; margin:2px; text-align:center;">⚙️ Services — Lógica de negocio + Patrones</div>
+      <div style="border:1px solid #90A4AE; padding:4px 8px; margin:2px; text-align:center;">🗄️ Repositories — SQLite + Estructuras de datos</div>
+      <div style="border:1px solid #90A4AE; padding:4px 8px; margin:2px; text-align:center;">📡 Sensors — Simulador / Puerto Serial</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Arquitectura en Capas (Layered)</h3>
+      <p>Capas verticales clásicas. Cada capa solo habla con la inmediata inferior. Simple, directa, fácil de entender y presentar.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Muy fácil de explicar</li><li>Estructura clara de carpetas</li><li>Ideal para presentación académica</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Capas acopladas hacia abajo</li><li>Menos flexible para swappear DB</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="hexagonal" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%); height: 140px; padding: 0.5rem; display:flex; flex-direction:column; justify-content:center; font-family:monospace; font-size:0.7rem; color:white;">
+      <div style="display:flex; gap:4px; justify-content:center;">
+        <div style="border:1px dashed #90CAF9; padding:3px 6px;">📡 Serial Adapter</div>
+        <div style="border:1px dashed #90CAF9; padding:3px 6px;">🔮 Simulator Adapter</div>
+      </div>
+      <div style="border:2px solid #42A5F5; padding:4px 8px; margin:4px; text-align:center;">🏗️ DOMAIN CORE — Entities + Patterns + Data Structures</div>
+      <div style="display:flex; gap:4px; justify-content:center;">
+        <div style="border:1px dashed #90CAF9; padding:3px 6px;">🗄️ SQLite Adapter</div>
+        <div style="border:1px dashed #90CAF9; padding:3px 6px;">🌐 FastAPI Adapter</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Hexagonal / Ports & Adapters ⭐ Recomendado</h3>
+      <p>El dominio al centro, todo externo son adaptadores. Swappear simulador ↔ hardware real es trivial. Demuestra el patrón Adapter de forma auténtica.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Adapter pattern nativo</li><li>Fácil de testear (mock adapters)</li><li>Simul/Real: cambio de 1 línea</li><li>Profesional y educativo</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Más archivos/interfaces</li><li>Más complejo de arrancar</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="event" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%); height: 140px; padding: 0.5rem; display:flex; flex-direction:column; justify-content:center; font-family:monospace; font-size:0.7rem; color:white;">
+      <div style="text-align:center; border:1px solid #CE93D8; padding:3px; margin:2px;">📡 Sensor Producer → [QUEUE] → Event Consumer</div>
+      <div style="text-align:center; border:1px solid #CE93D8; padding:3px; margin:2px;">⚠️ Alert Engine → [STACK] → Notifier</div>
+      <div style="text-align:center; border:1px solid #CE93D8; padding:3px; margin:2px;">🔄 Scheduler → [CIRCULAR LIST] → Panel Monitor</div>
+      <div style="text-align:center; border:1px solid #CE93D8; padding:3px; margin:2px;">🌐 FastAPI ← State Store ← Processors</div>
+    </div>
+    <div class="card-body">
+      <h3>C — Event-Driven con Estructuras de Datos Centrales</h3>
+      <p>Las estructuras de datos (Queue, Stack, Circular List) son el núcleo de comunicación. Cada lectura de sensor es un evento que fluye por las estructuras.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Estructuras de datos muy visibles</li><li>Demuestra FIFO/LIFO claramente</li><li>Muy visual para presentar</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Más complejo de depurar</li><li>Async/threading requerido</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:1.5rem; padding:1rem; background:rgba(21,101,192,0.1); border-left:4px solid #1565C0; border-radius:4px;">
+  <p><strong>⭐ Recomendación:</strong> <strong>B — Hexagonal</strong> porque el requerimiento de soporte dual (simulador + hardware real) es exactamente el caso de uso del patrón Adapter. El dominio no sabe si los datos vienen de un Arduino o de un generador Python — solo habla con la interfaz.</p>
+</div>
