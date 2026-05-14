@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="grid-column: span 3;">
+    <div class="card-header"><h3>Estado de Paneles Solares</h3></div>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+            <tr style="text-align: left; color: var(--text-muted); border-bottom: 1px solid var(--glass);">
+                <th style="padding: 12px;">ID</th><th style="padding: 12px;">Tipo</th><th style="padding: 12px;">Estado</th><th style="padding: 12px;">Producción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td style="padding: 15px;">SP-001</td><td>Monocristalino</td><td>Activo</td><td style="color: var(--primary-green);">0.85 kW</td></tr>
+            <tr><td style="padding: 15px;">SP-002</td><td>Policristalino</td><td>Activo</td><td style="color: var(--primary-green);">0.72 kW</td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
