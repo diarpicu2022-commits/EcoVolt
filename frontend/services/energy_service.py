@@ -100,6 +100,24 @@ class EnergyService:
             "daily_savings_usd": 0.0,
         }
 
+    # ------------------------------------------------------------------ #
+    #  Alerts                                                              #
+    # ------------------------------------------------------------------ #
+
+    async def get_alerts(self, limit: int = 5) -> list[dict]:
+        """Return the latest *limit* system alerts."""
+        url = f"{settings.api_url}/alerts?limit={limit}"
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.get(
+                    url, headers=auth_service.auth_headers, timeout=10
+                )
+            if response.status_code == 200:
+                return response.json()
+        except (httpx.ConnectError, httpx.TimeoutException):
+            pass
+        return []
+
 
 # Singleton instance
 energy_service = EnergyService()
