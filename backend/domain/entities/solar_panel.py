@@ -10,11 +10,11 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import TYPE_CHECKING, Any
 
-from domain.entities.energy_component import EnergyComponent
+from .energy_component import EnergyComponent
 
 # Importación diferida: PanelState referencia a SolarPanel, evitamos ciclo
 if TYPE_CHECKING:
-    from patterns.behavioral.states.panel_state import PanelState
+    from ...patterns.behavioral.states.panel_state import PanelState
 
 
 class SolarPanel(EnergyComponent):
@@ -71,7 +71,7 @@ class SolarPanel(EnergyComponent):
 
         # Campo privado con name-mangling: el estado solo se cambia mediante set_state()
         # Se inicializa como StandbyPanelState porque el panel arranca sin irradiación
-        from patterns.behavioral.states.standby_panel_state import StandbyPanelState
+        from ...patterns.behavioral.states.standby_panel_state import StandbyPanelState
         self.__panel_state: Any = StandbyPanelState()
 
     # -------------------------------------------------------------------------
@@ -188,7 +188,7 @@ class SolarPanel(EnergyComponent):
             f"Panel ID: {self._panel_id} | "
             f"Área: {self._surface_area_m2}m² | "
             f"Pico: {self._peak_power_watts}W | "
-            f"Estado: {self.__panel_state.get_status_label()}"
+            f"Estado: {self.__panel_state.get_status()}"
         )
 
     # -------------------------------------------------------------------------

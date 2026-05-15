@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from patterns.behavioral.states.panel_state import PanelState
+from .panel_state import PanelState
 
 if TYPE_CHECKING:
-    from domain.entities.solar_panel import SolarPanel
+    from ....domain.entities.solar_panel import SolarPanel
 
 
 class StandbyPanelState(PanelState):
@@ -37,7 +37,7 @@ class StandbyPanelState(PanelState):
         :param panel_context: El panel solar que delega este comportamiento.
         :return: Mensaje describiendo el estado del panel en espera.
         """
-        from patterns.behavioral.states.active_panel_state import ActivePanelState
+        from .active_panel_state import ActivePanelState
 
         # Umbral de activación: suficiente voltaje indica irradiación solar útil
         if panel_context.current_voltage > 5.0:
@@ -54,6 +54,6 @@ class StandbyPanelState(PanelState):
             f"(mínimo requerido: 5.0V)"
         )
 
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """Retorna la etiqueta legible del estado en espera del panel."""
         return "En Espera"

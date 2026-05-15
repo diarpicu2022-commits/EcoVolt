@@ -108,6 +108,9 @@ class SensorReadingStructArray:
             raise IndexError(f"Índice {record_index} fuera de rango para inserción.")
         self.__reading_records.insert(record_index, reading_record)
 
+    def insertAt(self, record_index: int, reading_record: SensorReadingRecord) -> None:
+        self.insert_at(record_index, reading_record)
+
     def append(self, reading_record: SensorReadingRecord) -> None:
         """
         Agrega un registro al final del array en O(1) amortizado.
@@ -121,6 +124,9 @@ class SensorReadingStructArray:
         self.__validate_index(record_index)
         return self.__reading_records.pop(record_index)
 
+    def deleteAt(self, record_index: int) -> SensorReadingRecord:
+        return self.delete_at(record_index)
+
     def delete_value(self, panel_id: str) -> bool:
         """
         Busca y elimina el primer registro correspondiente al panel indicado.
@@ -132,6 +138,9 @@ class SensorReadingStructArray:
         self.__reading_records.pop(record_index)
         return True
 
+    def deleteValue(self, panel_id: str) -> bool:
+        return self.delete_value(panel_id)
+
     def find_index(self, panel_id: str) -> int:
         """
         Retorna el índice del primer registro del panel especificado.
@@ -141,6 +150,9 @@ class SensorReadingStructArray:
             if record.panel_id == panel_id:
                 return idx
         return -1
+
+    def findIndex(self, panel_id: str) -> int:
+        return self.find_index(panel_id)
 
     def contains(self, panel_id: str) -> bool:
         return self.find_index(panel_id) != -1
@@ -152,12 +164,21 @@ class SensorReadingStructArray:
         """
         self.__reading_records.sort(key=lambda record: record.reading_timestamp)
 
+    def sortAscending(self) -> None:
+        self.sort_ascending()
+
     def sort_descending(self) -> None:
         """
         Ordena los registros por potencia descendente (mayor potencia primero).
         Permite identificar rápidamente los paneles con mayor generación.
         """
         self.__reading_records.sort(key=lambda record: record.power, reverse=True)
+
+    def sortDescending(self) -> None:
+        self.sort_descending()
+
+    def isEmpty(self) -> bool:
+        return self.is_empty()
 
     def __validate_index(self, record_index: int) -> None:
         if not (0 <= record_index < len(self.__reading_records)):

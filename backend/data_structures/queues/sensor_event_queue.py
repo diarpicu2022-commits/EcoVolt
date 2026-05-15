@@ -118,6 +118,9 @@ class SensorEventQueue(Generic[E]):
         """
         return len(self.__sensor_events) == 0
 
+    def isEmpty(self) -> bool:
+        return self.is_empty()
+
     def size(self) -> int:
         """
         Cantidad de eventos de sensor pendientes en la cola.

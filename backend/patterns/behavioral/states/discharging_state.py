@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from patterns.behavioral.states.battery_state import BatteryState
+from .battery_state import BatteryState
 
 if TYPE_CHECKING:
-    from domain.entities.battery import Battery
+    from ....domain.entities.battery import Battery
 
 
 class DischargingState(BatteryState):
@@ -34,7 +34,7 @@ class DischargingState(BatteryState):
         :param battery_context: La batería que delega este comportamiento.
         :return: Mensaje indicando el inicio de la carga.
         """
-        from patterns.behavioral.states.charging_state import ChargingState
+        from .charging_state import ChargingState
 
         # Se recibe energía solar o de red: revertir a modo carga
         battery_context.set_state(ChargingState())
@@ -53,7 +53,7 @@ class DischargingState(BatteryState):
         :param battery_context: La batería que delega este comportamiento.
         :return: Mensaje con el estado de la descarga.
         """
-        from patterns.behavioral.states.low_battery_state import LowBatteryState
+        from .low_battery_state import LowBatteryState
 
         # Umbral de 20% — por debajo de este nivel la batería puede dañarse
         if battery_context.current_charge_percentage <= 20.0:
@@ -68,6 +68,6 @@ class DischargingState(BatteryState):
             f"Nivel actual: {battery_context.current_charge_percentage:.1f}%"
         )
 
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """Retorna la etiqueta legible del estado de descarga activa."""
         return "Descargando"

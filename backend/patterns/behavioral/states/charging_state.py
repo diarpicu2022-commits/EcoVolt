@@ -8,11 +8,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from patterns.behavioral.states.battery_state import BatteryState
+from .battery_state import BatteryState
 
 # Importaciones diferidas para evitar ciclos: los estados se referencian entre sí
 if TYPE_CHECKING:
-    from domain.entities.battery import Battery
+    from ....domain.entities.battery import Battery
 
 
 class ChargingState(BatteryState):
@@ -35,14 +35,14 @@ class ChargingState(BatteryState):
         :return: Mensaje con el resultado de la carga.
         """
         # Se importa aquí dentro para romper la dependencia circular en tiempo de ejecución
-        from patterns.behavioral.states.full_charge_state import FullChargeState
+        from .full_charge_state import FullChargeState
 
         # Verificar si la batería ya alcanzó capacidad máxima tras la carga
         if battery_context.current_charge_percentage >= 100.0:
             battery_context.set_state(FullChargeState())
             return (
                 f"Batería {battery_context.battery_id} completamente cargada. "
-                f"Estado cambiado a: {FullChargeState().get_status_label()}"
+                f"Estado cambiado a: {FullChargeState().get_status()}"
             )
 
         return (
@@ -59,7 +59,7 @@ class ChargingState(BatteryState):
         :param battery_context: La batería que delega este comportamiento.
         :return: Mensaje indicando el cambio de estado.
         """
-        from patterns.behavioral.states.discharging_state import DischargingState
+        from .discharging_state import DischargingState
 
         # La carga se interrumpe porque hay demanda de energía
         battery_context.set_state(DischargingState())
@@ -68,6 +68,6 @@ class ChargingState(BatteryState):
             f"Iniciando descarga desde {battery_context.current_charge_percentage:.1f}%"
         )
 
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """Retorna la etiqueta legible del estado de carga activa."""
         return "Cargando"

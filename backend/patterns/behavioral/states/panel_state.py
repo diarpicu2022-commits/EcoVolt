@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 
 # Importación diferida para evitar dependencia circular entre SolarPanel y PanelState
 if TYPE_CHECKING:
-    from domain.entities.solar_panel import SolarPanel
+    from ....domain.entities.solar_panel import SolarPanel
 
 
 class PanelState(ABC):
@@ -38,10 +38,14 @@ class PanelState(ABC):
         ...
 
     @abstractmethod
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """
         Retorna la etiqueta legible del estado actual del panel.
 
         :return: Cadena con el nombre del estado (p. ej. 'Activo', 'En Espera').
         """
         ...
+
+    def get_status_label(self) -> str:
+        # Conserva compatibilidad con llamadas previas mientras alineamos el contrato del brief.
+        return self.get_status()

@@ -5,7 +5,7 @@ temporal: la primera en llegar es la primera en atenderse.
 """
 
 from collections import deque
-from typing import TypeVar, Generic, Optional
+from typing import TypeVar, Generic
 
 # A representa cualquier tipo de alerta del sistema solar
 A = TypeVar("A")
@@ -62,6 +62,9 @@ class AlertProcessingQueue(Generic[A]):
         Indica si no hay alertas pendientes de procesar.
         """
         return len(self.__pending_alerts) == 0
+
+    def isEmpty(self) -> bool:
+        return self.is_empty()
 
     def size(self) -> int:
         """

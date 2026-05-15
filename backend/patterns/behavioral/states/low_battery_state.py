@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from patterns.behavioral.states.battery_state import BatteryState
+from .battery_state import BatteryState
 
 if TYPE_CHECKING:
-    from domain.entities.battery import Battery
+    from ....domain.entities.battery import Battery
 
 
 class LowBatteryState(BatteryState):
@@ -34,7 +34,7 @@ class LowBatteryState(BatteryState):
         :param battery_context: La batería que delega este comportamiento.
         :return: Mensaje indicando el inicio de la carga de recuperación.
         """
-        from patterns.behavioral.states.charging_state import ChargingState
+        from .charging_state import ChargingState
 
         # Recuperación del estado crítico: el panel solar o la red está inyectando energía
         battery_context.set_state(ChargingState())
@@ -60,6 +60,6 @@ class LowBatteryState(BatteryState):
             f"Conectar fuente de carga inmediatamente."
         )
 
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """Retorna la etiqueta legible del estado crítico de batería."""
         return "Batería Baja"

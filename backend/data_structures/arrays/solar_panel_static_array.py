@@ -58,6 +58,10 @@ class SolarPanelStaticArray:
         self.__panel_slots[slot_index] = panel_id
         self.__occupied_slots += 1
 
+    def insertAt(self, slot_index: int, panel_id: str) -> None:
+        # Mantiene compatibilidad con el contrato camelCase del brief.
+        self.insert_at(slot_index, panel_id)
+
     def append(self, panel_id: str) -> None:
         """
         Agrega un panel en el primer slot vacío disponible.
@@ -87,6 +91,9 @@ class SolarPanelStaticArray:
             self.__occupied_slots -= 1
         return removed_panel_id
 
+    def deleteAt(self, slot_index: int) -> Optional[str]:
+        return self.delete_at(slot_index)
+
     def delete_value(self, panel_id: str) -> bool:
         """
         Busca y elimina la primera ocurrencia del panel_id especificado.
@@ -98,6 +105,9 @@ class SolarPanelStaticArray:
         self.delete_at(slot_index)
         return True
 
+    def deleteValue(self, panel_id: str) -> bool:
+        return self.delete_value(panel_id)
+
     def find_index(self, panel_id: str) -> int:
         """
         Retorna el índice del primer slot que contiene el panel_id buscado.
@@ -107,6 +117,9 @@ class SolarPanelStaticArray:
             if self.__panel_slots[slot_index] == panel_id:
                 return slot_index
         return -1
+
+    def findIndex(self, panel_id: str) -> int:
+        return self.find_index(panel_id)
 
     def contains(self, panel_id: str) -> bool:
         """
@@ -130,6 +143,9 @@ class SolarPanelStaticArray:
             else:
                 self.__panel_slots[slot_index] = None
 
+    def sortAscending(self) -> None:
+        self.sort_ascending()
+
     def sort_descending(self) -> None:
         """
         Ordena los paneles alfabéticamente de mayor a menor.
@@ -142,6 +158,9 @@ class SolarPanelStaticArray:
                 self.__panel_slots[slot_index] = active_panel_ids[slot_index]
             else:
                 self.__panel_slots[slot_index] = None
+
+    def sortDescending(self) -> None:
+        self.sort_descending()
 
     def __validate_index(self, slot_index: int) -> None:
         """

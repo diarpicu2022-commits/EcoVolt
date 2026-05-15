@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from patterns.behavioral.states.panel_state import PanelState
+from .panel_state import PanelState
 
 if TYPE_CHECKING:
-    from domain.entities.solar_panel import SolarPanel
+    from ....domain.entities.solar_panel import SolarPanel
 
 
 class ActivePanelState(PanelState):
@@ -39,8 +39,8 @@ class ActivePanelState(PanelState):
         :param panel_context: El panel solar que delega este comportamiento.
         :return: Mensaje describiendo el resultado del procesamiento de la lectura.
         """
-        from patterns.behavioral.states.faulty_panel_state import FaultyPanelState
-        from patterns.behavioral.states.standby_panel_state import StandbyPanelState
+        from .faulty_panel_state import FaultyPanelState
+        from .standby_panel_state import StandbyPanelState
 
         # Verificación de sobrecalentamiento — umbral crítico de las células fotovoltaicas
         if panel_context.current_temperature_celsius > 75.0:
@@ -69,6 +69,6 @@ class ActivePanelState(PanelState):
             f"{power_watts:.2f}W generados"
         )
 
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """Retorna la etiqueta legible del estado activo del panel."""
         return "Activo"

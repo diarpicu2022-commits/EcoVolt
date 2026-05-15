@@ -62,6 +62,9 @@ class ConfigurationCommandStack(Generic[T]):
         """
         return len(self.__command_history) == 0
 
+    def isEmpty(self) -> bool:
+        return self.is_empty()
+
     def size(self) -> int:
         """
         Cantidad de comandos almacenados en la pila.

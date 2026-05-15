@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from patterns.behavioral.states.panel_state import PanelState
+from .panel_state import PanelState
 
 if TYPE_CHECKING:
-    from domain.entities.solar_panel import SolarPanel
+    from ....domain.entities.solar_panel import SolarPanel
 
 
 class FaultyPanelState(PanelState):
@@ -45,6 +45,6 @@ class FaultyPanelState(PanelState):
             f"I: {panel_context.current_current_amps:.2f}A"
         )
 
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """Retorna la etiqueta legible del estado de fallo del panel."""
         return "Con Fallo"

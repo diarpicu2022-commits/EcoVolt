@@ -8,10 +8,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from patterns.behavioral.states.battery_state import BatteryState
+from .battery_state import BatteryState
 
 if TYPE_CHECKING:
-    from domain.entities.battery import Battery
+    from ....domain.entities.battery import Battery
 
 
 class FullChargeState(BatteryState):
@@ -46,7 +46,7 @@ class FullChargeState(BatteryState):
         :param battery_context: La batería que delega este comportamiento.
         :return: Mensaje indicando el inicio del suministro de energía.
         """
-        from patterns.behavioral.states.discharging_state import DischargingState
+        from .discharging_state import DischargingState
 
         # La batería pasa de reserva completa a suministrar energía al sistema
         battery_context.set_state(DischargingState())
@@ -55,6 +55,6 @@ class FullChargeState(BatteryState):
             f"Nivel actual: {battery_context.current_charge_percentage:.1f}%"
         )
 
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """Retorna la etiqueta legible del estado de carga completa."""
         return "Carga Completa"

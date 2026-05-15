@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 
 # Importación diferida para evitar dependencia circular entre Battery y BatteryState
 if TYPE_CHECKING:
-    from domain.entities.battery import Battery
+    from ....domain.entities.battery import Battery
 
 
 class BatteryState(ABC):
@@ -45,10 +45,14 @@ class BatteryState(ABC):
         ...
 
     @abstractmethod
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """
         Retorna la etiqueta legible del estado actual de la batería.
 
         :return: Cadena con el nombre del estado (p. ej. 'Cargando', 'Batería Baja').
         """
         ...
+
+    def get_status_label(self) -> str:
+        # Mantiene compatibilidad con el nombre anterior sin romper el contrato nuevo.
+        return self.get_status()

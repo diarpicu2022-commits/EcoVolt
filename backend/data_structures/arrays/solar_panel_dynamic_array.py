@@ -49,6 +49,9 @@ class SolarPanelDynamicArray:
             raise IndexError(f"Índice {panel_index} fuera de rango para inserción.")
         self.__panel_ids.insert(panel_index, panel_id)
 
+    def insertAt(self, panel_index: int, panel_id: str) -> None:
+        self.insert_at(panel_index, panel_id)
+
     def append(self, panel_id: str) -> None:
         """
         Agrega un panel al final del array en O(1) amortizado.
@@ -62,6 +65,9 @@ class SolarPanelDynamicArray:
         self.__validate_index(panel_index)
         return self.__panel_ids.pop(panel_index)
 
+    def deleteAt(self, panel_index: int) -> str:
+        return self.delete_at(panel_index)
+
     def delete_value(self, panel_id: str) -> bool:
         """
         Busca y elimina la primera ocurrencia del panel_id especificado.
@@ -73,6 +79,9 @@ class SolarPanelDynamicArray:
         self.__panel_ids.pop(panel_index)
         return True
 
+    def deleteValue(self, panel_id: str) -> bool:
+        return self.delete_value(panel_id)
+
     def find_index(self, panel_id: str) -> int:
         """
         Retorna el índice de la primera ocurrencia del panel_id.
@@ -82,6 +91,9 @@ class SolarPanelDynamicArray:
             if stored_panel_id == panel_id:
                 return idx
         return -1
+
+    def findIndex(self, panel_id: str) -> int:
+        return self.find_index(panel_id)
 
     def contains(self, panel_id: str) -> bool:
         return self.find_index(panel_id) != -1
@@ -227,6 +239,9 @@ class SolarPanelDynamicArray:
         if len(self.__panel_ids) > 1:
             self.__quicksort(self.__panel_ids, 0, len(self.__panel_ids) - 1)
 
+    def sortAscending(self) -> None:
+        self.sort_ascending()
+
     def sort_descending(self) -> None:
         """
         Ordena los paneles alfabéticamente descendente usando MergeSort invertido.
@@ -237,6 +252,9 @@ class SolarPanelDynamicArray:
             sorted_panel_ids = self.__mergesort(list(self.__panel_ids))
             # Invertir el resultado ascendente de MergeSort para obtener descendente
             self.__panel_ids = sorted_panel_ids[::-1]
+
+    def sortDescending(self) -> None:
+        self.sort_descending()
 
     def sort_with_heapsort(self) -> None:
         """

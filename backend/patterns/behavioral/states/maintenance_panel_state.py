@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from patterns.behavioral.states.panel_state import PanelState
+from .panel_state import PanelState
 
 if TYPE_CHECKING:
-    from domain.entities.solar_panel import SolarPanel
+    from ....domain.entities.solar_panel import SolarPanel
 
 
 class MaintenancePanelState(PanelState):
@@ -40,6 +40,6 @@ class MaintenancePanelState(PanelState):
             f"Panel {panel_context.panel_id} en mantenimiento, lecturas ignoradas"
         )
 
-    def get_status_label(self) -> str:
+    def get_status(self) -> str:
         """Retorna la etiqueta legible del estado de mantenimiento del panel."""
         return "En Mantenimiento"
