@@ -46,23 +46,15 @@ class EcoVoltApp {
         if (!this.chart) {
             const ctx = document.getElementById('energyChart').getContext('2d');
             this.chart = new Chart(ctx, {
-                type: 'line',
+                type: chartData.tipo || 'line',
                 data: {
-                    labels: chartData.labels,
+                    labels: chartData.etiquetas,
                     datasets: [
                         {
-                            label: 'Generación (kW)',
-                            data: chartData.generation,
+                            label: chartData.titulo || 'Producción (kW)',
+                            data: chartData.valores,
                             borderColor: '#4CAF50',
                             backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                            fill: true,
-                            tension: 0.4
-                        },
-                        {
-                            label: 'Consumo (kW)',
-                            data: chartData.consumption,
-                            borderColor: '#FF9800',
-                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
                             fill: true,
                             tension: 0.4
                         }
@@ -84,9 +76,9 @@ class EcoVoltApp {
                 }
             });
         } else {
-            this.chart.data.labels = chartData.labels;
-            this.chart.data.datasets[0].data = chartData.generation;
-            this.chart.data.datasets[1].data = chartData.consumption;
+            this.chart.data.labels = chartData.etiquetas;
+            this.chart.data.datasets[0].data = chartData.valores;
+            if (chartData.titulo) this.chart.data.datasets[0].label = chartData.titulo;
             this.chart.update();
         }
     }

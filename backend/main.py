@@ -15,14 +15,21 @@ try:
     from domain.entities.monocrystalline_panel import MonocrystallinePanel
     from domain.entities.lithium_battery import LithiumBattery
     from data_structures.arrays.solar_panel_dynamic_array import SolarPanelDynamicArray
+    from patterns.structural.chart_renderer import ChartData
+    from patterns.structural.json_chart_renderer import JsonChartRenderer
 except ImportError as e:
-    print(f"Error al importar clases de dominio: {e}")
+    print(f"Error al importar clases de dominio o patrones: {e}")
     # Fallback si las importaciones fallan
     MonocrystallinePanel = None
     LithiumBattery = None
     SolarPanelDynamicArray = None
+    ChartData = None
+    JsonChartRenderer = None
 
 app = FastAPI(title="EcoVolt - Sistema de Energía Solar")
+
+# Inicializar renderizador de gráficos (Patrón Bridge)
+chart_renderer = JsonChartRenderer() if JsonChartRenderer else None
 
 # Configurar CORS para permitir solicitudes desde cualquier origen en el frontend
 app.add_middleware(
@@ -76,11 +83,23 @@ async def consumption(request: Request):
 async def alerts(request: Request):
     return templates.TemplateResponse("alertas.html", {"request": request, "title": "Alertas del Sistema - EcoVolt"})
 
-# API Metrics con integración de lógica real
+# API Metrics con integración de lógica real y Patrón Bridge
 @app.get("/api/v1/metrics")
 async def get_metrics():
     # Usar datos reales de la batería si existe
     bat_lvl = main_battery._current_charge_percentage if main_battery else random.randint(15, 95)
+    
+    # Preparar datos del gráfico usando el Patrón Bridge (JsonChartRenderer)
+    chart_json = {}
+    if ChartData and chart_renderer:
+        data = ChartData(
+            chart_title="Producción vs Consumo (kW)",
+            labels=["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"],
+            values=[2.5, 3.8, 5.2, 6.8, 6.2, 4.5],
+            chart_type="line"
+        )
+        # El renderizador produce una cadena JSON
+        chart_json = json.loads(chart_renderer.render(data))
     
     return {
         "solar_gen": round(random.uniform(2.0, 7.0), 2),
@@ -88,12 +107,8 @@ async def get_metrics():
         "energy_cons": round(random.uniform(1.0, 4.0), 2),
         "status": "online",
         "panel_count": system_panels.size() if system_panels else 0,
-        # Historial para la gráfica
-        "chart_data": {
-            "labels": ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"],
-            "generation": [2.5, 3.8, 5.2, 6.8, 6.2, 4.5],
-            "consumption": [1.8, 2.1, 2.4, 3.0, 2.8, 2.5]
-        }
+        # Gráfica renderizada vía Bridge
+        "chart_data": chart_json
     }
 
 if __name__ == "__main__":
