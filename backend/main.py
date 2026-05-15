@@ -1,9 +1,19 @@
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 
 app = FastAPI(title="EcoVolt - Sistema de Energía Solar")
+
+# Configurar CORS para permitir solicitudes desde cualquier origen en el frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # En producción debe ser más restrictivo
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Obtener la ruta del directorio base (EcoVolt/)
 BASE_DIR = Path(__file__).resolve().parent.parent
