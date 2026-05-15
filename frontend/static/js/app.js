@@ -31,9 +31,64 @@ class EcoVoltApp {
         if (solar) solar.innerText = `${data.solar_gen} kW`;
         if (battery) {
             battery.innerText = `${data.battery_lvl}%`;
-            document.getElementById('battery-fill')?.style.setProperty('width', `${data.battery_lvl}%`);
+            const fill = document.getElementById('battery-fill');
+            if (fill) fill.style.width = `${data.battery_lvl}%`;
         }
         if (cons) cons.innerText = `${data.energy_cons} kW`;
+
+        // Actualizar gráfica si existe
+        if (data.chart_data && document.getElementById('energyChart')) {
+            this.updateChart(data.chart_data);
+        }
+    }
+
+    updateChart(chartData) {
+        if (!this.chart) {
+            const ctx = document.getElementById('energyChart').getContext('2d');
+            this.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [
+                        {
+                            label: 'Generación (kW)',
+                            data: chartData.generation,
+                            borderColor: '#4CAF50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Consumo (kW)',
+                            data: chartData.consumption,
+                            borderColor: '#FF9800',
+                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { 
+                            display: true, 
+                            labels: { color: '#A0A0A0', font: { family: 'Outfit' } } 
+                        } 
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#A0A0A0' } },
+                        x: { grid: { display: false }, ticks: { color: '#A0A0A0' } }
+                    }
+                }
+            });
+        } else {
+            this.chart.data.labels = chartData.labels;
+            this.chart.data.datasets[0].data = chartData.generation;
+            this.chart.data.datasets[1].data = chartData.consumption;
+            this.chart.update();
+        }
     }
 }
 
